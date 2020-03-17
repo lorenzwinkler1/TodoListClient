@@ -1,0 +1,48 @@
+<template>
+    <div class="loading-message" if.bind="finishedloading!=true">
+        Loading ...
+    </div>
+
+    <div class="errormsg error" if.bind="finishedloading&&!todos">
+        Fehler beim laden
+    </div>
+
+    <div class="table-container" if.bind="todos">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Title
+                    </th>
+                    <th>
+                        Created
+                    </th>
+                    <th>
+                        Due
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr repeat.for="item of todos">
+                    <td>
+                        ${item.title}
+                    </td>
+                    <td>
+                        ${item.created}
+                    </td>
+                    <td>
+                        ${item.due}
+                    </td>
+                    <td>
+                        <button class="btn btn-outline-primary" click.delegate="editClick(item)">Edit</button>
+                        <button class="btn btn-outline-danger">Delete</button>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+</template>

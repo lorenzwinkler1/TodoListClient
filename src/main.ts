@@ -1,6 +1,6 @@
-import {Aurelia} from 'aurelia-framework'
+import { Aurelia } from 'aurelia-framework'
 import * as environment from '../config/environment.json';
-import {PLATFORM} from 'aurelia-pal';
+import { PLATFORM } from 'aurelia-pal';
 
 export function configure(aurelia: Aurelia) {
   aurelia.use
@@ -8,6 +8,10 @@ export function configure(aurelia: Aurelia) {
     .feature(PLATFORM.moduleName('resources/index'));
 
   aurelia.use.developmentLogging(environment.debug ? 'debug' : 'warn');
+  require('bootstrap/dist/css/bootstrap.min.css');
+  // require('jquery/dist/jquery.js');
+  // require('popper.js/dist/popper.js');
+
 
   if (environment.testing) {
     aurelia.use.plugin(PLATFORM.moduleName('aurelia-testing'));
