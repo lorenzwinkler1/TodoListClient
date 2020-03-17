@@ -36,6 +36,8 @@ export class TodoService {
     }
     public async createTodo(todo: Todo): Promise<Todo> {
         try {
+            console.log(json(todo));
+            console.log(JSON.stringify(todo));
             let res = await this.httpClient.fetch(this.apiConf.basePath, {
                 method: 'post',
                 body: json(todo),

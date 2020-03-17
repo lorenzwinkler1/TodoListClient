@@ -1,3 +1,15 @@
 <template>
-    
+    <div class="form-group">
+        <label asp-for="Title" class="control-label">Title</label>
+        <input type="text" value.bind="todo.title" class="form-control" />
+    </div>
+    <div class="form-group form-check">
+        <label class="form-check-label">
+            <input type="checkbox" class="form-check-input" value.bind="todo.isDone" /> Is Done
+        </label>
+    </div>
+    <div class="form-group">
+        <label class="control-label">Date Due</label>
+        <input type="datetime-local" format-value="yyyy.MM.dd hh:mm" value.bind="todo.due" class="form-control" />
+    </div>
 </template>
