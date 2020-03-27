@@ -9,8 +9,7 @@ export function configure(aurelia: Aurelia) {
 
   aurelia.use.developmentLogging(environment.debug ? 'debug' : 'warn');
   require('bootstrap/dist/css/bootstrap.min.css');
-  // require('jquery/dist/jquery.js');
-  // require('popper.js/dist/popper.js');
+  require('bootstrap')
 
 
   if (environment.testing) {
