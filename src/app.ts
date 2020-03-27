@@ -13,5 +13,11 @@ export class App {
       { route: 'edit', name: 'edit', moduleId: PLATFORM.moduleName('pages/edit/edit'), title: 'Edit' },
 
     ]);
+
+
+    (<any>Date.prototype).addHours = function (h) {
+      this.setHours(this.getHours() + h);
+      return this;
+    }
   }
 }
