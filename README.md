@@ -1,8 +1,6 @@
 # `todo-list-client`
 
-This project is bootstrapped by [aurelia-cli](https://github.com/aurelia/cli).
-
-For more information, go to https://aurelia.io/docs/cli/webpack
+To run this client, the API needs to be running and the api's Port must be updated in `src/configuration/api.config.ts`
 
 ## Run dev app
 
