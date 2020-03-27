@@ -5,19 +5,28 @@ import { Router } from 'aurelia-router'
 
 @inject(TodoService, Router)
 export class Home {
-    private todos: Todo[];
-    private finishedloading: boolean = false;
-    public constructor(private todoService: TodoService, private router: Router) {
-    }
+  private todos: Todo[];
+  private finishedloading: boolean = false;
+  public constructor(private todoService: TodoService, private router: Router) {
+  }
+  public getColor(todo: Todo): string {
+    if (todo.isDone)
+      return "bg-success";
 
-    async activate(params, routeConfig, navigationInstruction) {
-        // this.todos = await this.todoService.getTodos();
-        this.todos = await this.todoService.getTodos();
-        console.log(this.todos);
-        this.finishedloading = true;
+    return new Date(todo.due).getTime() < new Date().getTime() ? "bg-danger" : "";
+  }
+  async activate(params, routeConfig, navigationInstruction) {
+    // this.todos = await this.todoService.getTodos();
+    this.todos = await this.todoService.getTodos();
+    this.finishedloading = true;
+  }
+  editClick(item: Todo) {
+    this.router.navigateToRoute('edit', { id: item.id });
+  }
+  async deleteClick(item: Todo) {
+    if (confirm("Wollen Sie das item '" + item.title + "' wirklich löschen?")) {
+      await this.todoService.deleteTodo(item);
+      this.todos = await this.todoService.getTodos();
     }
-    editClick(item: Todo) {
-        console.log(item);
-        this.router.navigateToRoute('edit', { id: item.id });
-    }
+  }
 }
