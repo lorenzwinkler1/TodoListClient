@@ -5,21 +5,22 @@ import { inject } from 'aurelia-framework';
 
 @inject(TodoService, Router)
 export class Create {
-    private todo: Todo;
-    constructor(private todoService: TodoService, private router: Router) {
+  private todo: Todo;
+  constructor(private todoService: TodoService, private router: Router) {
 
+  }
+  activate(params, routeConfig, navigationInstruction) {
+    this.todo = {
+      id: 0,
+      title: "",
+      due: null,
+      created: (<any>new Date()).addHours(1),
+      isDone: false,
     }
-    activate(params, routeConfig, navigationInstruction) {
-        this.todo = {
-            id: 0,
-            title: "",
-            due: null,
-            created: "",
-            isDone: false,
-        }
-    }
-    private createClick() {
-        this.todoService.createTodo(this.todo);
-        this.router.navigateToRoute("home");
-    }
+  }
+  private async createClick() {
+    this.todo.due = new Date(this.todo.due).toISOString();
+    await this.todoService.createTodo(this.todo);
+    this.router.navigateToRoute("home");
+  }
 }

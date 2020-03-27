@@ -1,3 +1,6 @@
 <template>
-    <p>edit works</p>
+  <require from="../../components/editable-todo/editable-todo.component"></require>
+  <app-editable-todo todo.bind="todo"></app-editable-todo>
+  <button class="btn btn-outline-success" click.delegate="editClick()">Edit</button>
+  <a class="btn btn-outline-danger" route-href="home">Back</a>
 </template>
