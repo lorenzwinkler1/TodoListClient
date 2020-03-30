@@ -9,6 +9,47 @@ export class TodoService {
   constructor(private apiConf: ApiConfig) {
     this.httpClient = new HttpClient();
 
+
+    this.httpClient.configure(config => {
+      config.withInterceptor({
+        request: req => {
+          return req;
+        },
+        response: (response, req) => {
+
+          if (response.ok)
+            return response;
+
+          let actionname: string;
+          switch (req?.method.toLowerCase()) {
+            case "get": {
+              actionname = "reading";
+              break;
+            }
+            case "post": {
+              actionname = "creating";
+              break;
+            }
+            case "put": {
+              actionname = "updating";
+              break;
+            }
+            case "delete": {
+              actionname = "deleting";
+              break;
+            }
+            default: {
+              actionname = "performing an unknown operation with";
+            }
+          }
+
+          this.PublishErrorMessage("Error while " + actionname + " an item at url " + req?.url + ": " + response.status + " " + response.statusText);
+
+          return response;
+        }
+
+      })
+    })
   }
 
   public async getTodos(): Promise<Todo[]> {
@@ -22,8 +63,6 @@ export class TodoService {
       else
         return Promise.reject();
     } catch (err) {
-      console.log(err);
-      this.PublishErrorMessage("Error while loading Todos");
       return Promise.reject();
     }
   }
@@ -34,7 +73,6 @@ export class TodoService {
       })
       return (await res.ok) ? res.json() : Promise.reject();
     } catch (err) {
-      this.PublishErrorMessage("Error while loading Todo");
       return Promise.reject();
     }
   }
@@ -46,7 +84,6 @@ export class TodoService {
       });
       return (await res.ok) ? res.json() : Promise.reject();
     } catch (err) {
-      this.PublishErrorMessage("Error while creating Todo");
       return Promise.reject();
     }
   }
@@ -58,8 +95,6 @@ export class TodoService {
       });
       return (await res.ok) ? res.json() : Promise.reject();
     } catch (err) {
-      console.log(err);
-      this.PublishErrorMessage("Error while updating Todo");
       return Promise.reject();
     }
   }
@@ -72,9 +107,8 @@ export class TodoService {
         method: 'delete',
       })
 
-      return await res.ok?res.ok:Promise.reject();
+      return await res.ok ? res.ok : Promise.reject();
     } catch (err) {
-      this.PublishErrorMessage("Error while deleting Todo");
       return Promise.reject();
     }
   }
