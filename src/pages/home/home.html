@@ -1,49 +1,56 @@
 <template>
   <require from="../../valueconverters/datetime-converter"></require>
-    <div class="loading-message" if.bind="finishedloading!=true">
-        Loading ...
+  <require from="../../components/loading-spinner/loading-spinner.component"></require>
+
+
+
+
+  <div class="table-container">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>
+            Title
+          </th>
+          <th>
+            Created
+          </th>
+          <th>
+            Due
+          </th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+
+
+        <tr repeat.for="item of todos" if.bind="todos" class="${getColor(item)}">
+          <td>
+            ${item.title}
+          </td>
+          <td>
+            ${item.created | datetime}
+          </td>
+          <td>
+            ${item.due | datetime}
+          </td>
+          <td>
+            <button class="btn btn-outline-primary" click.delegate="editClick(item)">Edit</button>
+            <button class="btn btn-outline-danger" click.delegate="deleteClick(item)">Delete</button>
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+    <div class="loading-message" style="display:flex; flex-direction:row; justify-content:center; align-items:center" if.bind="finishedloading!=true">
+      <app-loading-spinner></app-loading-spinner>
+
     </div>
 
     <div class="errormsg error" if.bind="finishedloading&&!todos">
-        Fehler beim laden
+      Error while loading Todos <span class="btn btn-outline-primary" click.delegate="loadTodos()">Retry</span>
     </div>
 
-    <div class="table-container" if.bind="todos">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>
-                        Title
-                    </th>
-                    <th>
-                        Created
-                    </th>
-                    <th>
-                        Due
-                    </th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-
-                <tr repeat.for="item of todos" class="${getColor(item)}">
-                    <td>
-                        ${item.title}
-                    </td>
-                    <td>
-                        ${item.created | datetime}
-                    </td>
-                    <td>
-                        ${item.due | datetime}
-                    </td>
-                    <td>
-                        <button class="btn btn-outline-primary" click.delegate="editClick(item)">Edit</button>
-                        <button class="btn btn-outline-danger" click.delegate="deleteClick(item)">Delete</button>
-                    </td>
-                </tr>
-
-            </tbody>
-        </table>
-    </div>
+  </div>
 
 </template>

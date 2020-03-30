@@ -15,18 +15,29 @@ export class Home {
 
     return new Date(todo.due).getTime() < new Date().getTime() ? "bg-danger" : "";
   }
-  async activate(params, routeConfig, navigationInstruction) {
-    // this.todos = await this.todoService.getTodos();
-    this.todos = await this.todoService.getTodos();
-    this.finishedloading = true;
+  activate(params, routeConfig, navigationInstruction) {
+    this.loadTodos();
+  }
+
+  loadTodos() {
+    this.finishedloading = false;
+    this.todoService.getTodos().then((item) => {
+      this.todos = item;
+    }).catch(() => {
+      this.finishedloading = true;
+    });
   }
   editClick(item: Todo) {
     this.router.navigateToRoute('edit', { id: item.id });
   }
   async deleteClick(item: Todo) {
-    if (confirm("Wollen Sie das item '" + item.title + "' wirklich löschen?")) {
-      await this.todoService.deleteTodo(item);
-      this.todos = await this.todoService.getTodos();
+    if (confirm("Do you really want to delete the Item '" + item.title + "'?")) {
+      try {
+        await this.todoService.deleteTodo(item);
+      } catch (err) {
+        alert("Error while deleting Todo");
+      }
+      this.loadTodos();
     }
   }
 }

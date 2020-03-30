@@ -17,6 +17,14 @@
 
   </nav>
   <div class="container">
+    <div class="expanderrors" click.delegate="toggleerrorlist()" style="cursor: pointer;">
+      Error Messages: <span>${errorsexpanded?"(click to collapse)":"(click to expand)"}</span>
+    </div>
+    <div class="chat" if.bind="errorsexpanded" style="background-color:lightgray; border:1px solid gray; border-radius:3px;display:flex; flex-direction:column-reverse; height:200px; overflow-y:auto">
+      <div class="alert alert-danger" role="alert" repeat.for="error of errors">
+        ${error}
+      </div>
+    </div>
     <router-view></router-view>
 
   </div>

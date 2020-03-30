@@ -6,6 +6,8 @@ import { inject } from 'aurelia-framework';
 @inject(TodoService, Router)
 export class Create {
   private todo: Todo;
+  private isloading: boolean = false;
+  private errormsg: string = "";
   constructor(private todoService: TodoService, private router: Router) {
 
   }
@@ -19,8 +21,15 @@ export class Create {
     }
   }
   private async createClick() {
+    this.isloading = true;
+    this.errormsg = "";
     this.todo.due = new Date(this.todo.due).toISOString();
-    await this.todoService.createTodo(this.todo);
-    this.router.navigateToRoute("home");
+    try {
+      await this.todoService.createTodo(this.todo);
+      this.router.navigateToRoute("home");
+    } catch (err) {
+      this.isloading = false;
+      this.errormsg = "Error while creating Todo";
+    }
   }
 }

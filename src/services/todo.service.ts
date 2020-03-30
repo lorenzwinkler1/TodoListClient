@@ -16,22 +16,26 @@ export class TodoService {
       let res = await this.httpClient.fetch(this.apiConf.basePath, {
         method: 'get',
       });
+      console.log("a");
       if (res.ok)
         return <Todo[]>(await res.json());
       else
-        return null
+        return Promise.reject();
     } catch (err) {
-      return null;
+      console.log(err);
+      this.PublishErrorMessage("Error while loading Todos");
+      return Promise.reject();
     }
   }
   public async getTodo(id: number) {
     try {
-      let res = await this.httpClient.fetch(this.apiConf.basePath+id, {
+      let res = await this.httpClient.fetch(this.apiConf.basePath + id, {
         method: 'get',
       });
       return (await res.ok) ? res.json() : null;
     } catch (err) {
-      return null;
+      this.PublishErrorMessage("Error while loading Todo");
+      return Promise.reject();
     }
   }
   public async createTodo(todo: Todo): Promise<Todo> {
@@ -42,7 +46,8 @@ export class TodoService {
       });
       return (await res.ok) ? res.json() : null;
     } catch (err) {
-      return null;
+      this.PublishErrorMessage("Error while creating Todo");
+      return Promise.reject();
     }
   }
   public async updateTodo(todo: Todo): Promise<Todo> {
@@ -54,7 +59,8 @@ export class TodoService {
       return (await res.ok) ? res.json() : null;
     } catch (err) {
       console.log(err);
-      return null;
+      this.PublishErrorMessage("Error while updating Todo");
+      return Promise.reject();
     }
   }
   public async deleteTodo(todo: Todo): Promise<boolean> {
@@ -68,7 +74,23 @@ export class TodoService {
 
       return await res.ok;
     } catch (err) {
-      return false;
+      this.PublishErrorMessage("Error while deleting Todo");
+      return Promise.reject();
     }
+  }
+
+
+
+  private errormessages: { (message?: string): void; }[] = [];
+
+  public onErrorMessage(handler: { (message?: string): void; }): void {
+    this.errormessages.push(handler);
+  }
+  public offDataUpdated(handler: { (message?: string): void }): void {
+    this.errormessages = this.errormessages.filter(h => h !== handler);
+  }
+  private PublishErrorMessage(message: string) {
+    console.log(message);
+    this.errormessages.forEach(item => item(message));
   }
 }

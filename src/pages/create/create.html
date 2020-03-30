@@ -1,6 +1,10 @@
 <template>
     <require from="../../components/editable-todo/editable-todo.component"></require>
+  <require from="../../components/loading-spinner/loading-spinner.component"></require>
+
    <app-editable-todo todo.bind="todo"></app-editable-todo>
-    <button class="btn btn-outline-success" click.delegate="createClick()">Create</button>
-    <a class="btn btn-outline-danger" route-href="home">Back</a>
+    <button class="btn btn-outline-success" disabled.bind="isloading" click.delegate="createClick()">Create</button>
+    <a class="btn btn-outline-danger" route-href="home">Back</a><br>
+    <div class="error-msg text-danger">${errormsg}</div>
+    <app-loading-spinner if.bind="isloading"></app-loading-spinner>
 </template>
