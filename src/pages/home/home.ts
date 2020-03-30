@@ -23,6 +23,7 @@ export class Home {
     this.finishedloading = false;
     this.todoService.getTodos().then((item) => {
       this.todos = item;
+      this.finishedloading = true;
     }).catch(() => {
       this.finishedloading = true;
     });

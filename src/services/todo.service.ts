@@ -31,8 +31,8 @@ export class TodoService {
     try {
       let res = await this.httpClient.fetch(this.apiConf.basePath + id, {
         method: 'get',
-      });
-      return (await res.ok) ? res.json() : null;
+      })
+      return (await res.ok) ? res.json() : Promise.reject();
     } catch (err) {
       this.PublishErrorMessage("Error while loading Todo");
       return Promise.reject();
@@ -44,7 +44,7 @@ export class TodoService {
         method: 'post',
         body: json(todo),
       });
-      return (await res.ok) ? res.json() : null;
+      return (await res.ok) ? res.json() : Promise.reject();
     } catch (err) {
       this.PublishErrorMessage("Error while creating Todo");
       return Promise.reject();
@@ -56,7 +56,7 @@ export class TodoService {
         method: 'put',
         body: json(todo),
       });
-      return (await res.ok) ? res.json() : null;
+      return (await res.ok) ? res.json() : Promise.reject();
     } catch (err) {
       console.log(err);
       this.PublishErrorMessage("Error while updating Todo");
@@ -72,7 +72,7 @@ export class TodoService {
         method: 'delete',
       })
 
-      return await res.ok;
+      return await res.ok?res.ok:Promise.reject();
     } catch (err) {
       this.PublishErrorMessage("Error while deleting Todo");
       return Promise.reject();

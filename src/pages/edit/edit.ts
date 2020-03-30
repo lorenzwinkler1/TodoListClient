@@ -12,15 +12,15 @@ export class Edit {
 
   }
   async activate(params, routeConfig, navigationInstruction) {
-    try{
-    this.todo = await this.todoService.getTodo(params.id);
-    }catch(error){
+    try {
+      this.todo = await this.todoService.getTodo(params.id);
+    } catch (error) {
       alert("Todo with the given id could not be found");
       this.router.navigateToRoute("home");
     }
   }
 
-  async editClick(){
+  async editClick() {
 
     this.isloading = true;
     this.errormsg = "";

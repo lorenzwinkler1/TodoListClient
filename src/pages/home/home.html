@@ -42,7 +42,7 @@
 
       </tbody>
     </table>
-    <div class="loading-message" style="display:flex; flex-direction:row; justify-content:center; align-items:center" if.bind="finishedloading!=true">
+    <div class="loading-message" style="display:flex; flex-direction:row; justify-content:center; align-items:center" if.bind="!finishedloading">
       <app-loading-spinner></app-loading-spinner>
 
     </div>
