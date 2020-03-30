@@ -2,7 +2,15 @@
   <require from="../../valueconverters/datetime-converter"></require>
   <require from="../../components/loading-spinner/loading-spinner.component"></require>
 
+  <style>
+    .bg-success {
+      background-color: #88ff88!important;
+    }
 
+    .bg-danger {
+      background-color: #ff8282!important;
+    }
+  </style>
 
 
   <div class="table-container">
@@ -42,7 +50,8 @@
 
       </tbody>
     </table>
-    <div class="loading-message" style="display:flex; flex-direction:row; justify-content:center; align-items:center" if.bind="!finishedloading">
+    <div class="loading-message" style="display:flex; flex-direction:row; justify-content:center; align-items:center"
+      if.bind="!finishedloading">
       <app-loading-spinner></app-loading-spinner>
 
     </div>
